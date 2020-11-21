@@ -31,7 +31,7 @@ public class EnemyController : MonoBehaviour
 
     [Header ("Enemies")]
     [Tooltip("enemis types")]
-    public EnemyTurret zombie;
+    public ZombieIA zombie;
 
     [Header("Weapons Parameters")]
     [Tooltip("Allow weapon swapping for this enemy")]
@@ -369,7 +369,7 @@ public class EnemyController : MonoBehaviour
         // this will call the OnDestroy function
         Destroy(gameObject, deathDuration);
 
-        EnemyTurret spawnedEnemy = Instantiate(zombie, transform.position, Quaternion.identity) as EnemyTurret;
+        Instantiate(zombie, transform.position, Quaternion.identity);
     }
 
     private void OnDrawGizmosSelected()
