@@ -5,13 +5,18 @@ using UnityEngine.AI;
 
 public class ZombieIA : MonoBehaviour
 {
+    [SerializeField] float damage;
     [SerializeField] float stoppingDistance;
 
-    float lastAttackTime=0;
+    public Health health
+    {
+        get; private set;
+    }
+    float lastAttackTime = 0;
     float attackColldown = 0;
 
 
-    NacMeshAgent agent;
+    NavMeshAgent agent;
 
     GameObject target;
 
@@ -20,17 +25,17 @@ public class ZombieIA : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        float dist = Vector3.Distance(transform.postion, target.transform.position);
-        if (dist < stoppingDistance)
+        float dist = Vector3.Distance(transform.position, target.transform.position);
+        if (dist > stoppingDistance)
         {
             StopEnemy();
-            Attack();
-            
+
         }
         else
         {
@@ -39,9 +44,10 @@ public class ZombieIA : MonoBehaviour
     }
 
 
-    private void GoTotarget()
+    private void GoToTarget()
     {
         agent.isStopped = false;
+        agent.SetDestination(target.transform.position);
     }
 
     private void StopEnemy()
@@ -51,10 +57,26 @@ public class ZombieIA : MonoBehaviour
 
     private void Attack()
     {
-        if(Time.time - lastAttackTime >=attackColldown)
+        health = GetComponent<Health>();
+        if (!health)
+        {
+            health = GetComponentInParent<Health>();
+        }
+
+
+        if (Time.time - lastAttackTime >= attackColldown)
         {
             lastAttackTime = Time.time;
-            target.GetComponent < CharacterStats().TakeDamage(damage);
+            health.TakeDamage(damage, target);
         }
     }
+
+     void OnCollisionEnter(Collision collision)
+      {
+         ZombieIA other = collision.gameObject.GetComponent<ZombieIA>();
+          if (other)
+          {
+            Attack();
+          }
+      }
 }
