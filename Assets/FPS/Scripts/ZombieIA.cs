@@ -74,7 +74,7 @@ public class ZombieIA : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
     
-        if (col.gameObject.tag == "Player" && col.gameObject.tag == "Zombie")
+        if (col.gameObject.tag == "Player")
         {
             Attack();
         }
