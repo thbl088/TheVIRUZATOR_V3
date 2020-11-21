@@ -1358,7 +1358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dsound: {fileID: 5431307945719620897}
   damage: 10
-  stoppingDistance: 10
+  stoppingDistance: 200
 --- !u!195 &5431307945719620898
 NavMeshAgent:
   m_ObjectHideFlags: 0
