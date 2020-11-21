@@ -13,7 +13,7 @@ public class ZombieIA : MonoBehaviour
         get; private set;
     }
     float lastAttackTime = 0;
-    float attackColldown = 0;
+    float attackColldown = 1;
 
 
     NavMeshAgent agent;
@@ -57,26 +57,30 @@ public class ZombieIA : MonoBehaviour
 
     private void Attack()
     {
-        health = GetComponent<Health>();
-        if (!health)
-        {
-            health = GetComponentInParent<Health>();
-        }
-
+       
 
         if (Time.time - lastAttackTime >= attackColldown)
         {
             lastAttackTime = Time.time;
-            health.TakeDamage(damage, target);
+            target.GetComponent<Health>().takeDamage(damage);
         }
     }
 
-     void OnCollisionEnter(Collision collision)
-      {
-         ZombieIA other = collision.gameObject.GetComponent<ZombieIA>();
-          if (other)
-          {
+    void OnCollisionEnter(Collision col)
+    {
+    
+        if (col.gameObject.tag == "Player")
+        {
             Attack();
-          }
-      }
+        }
+        /*  void OnCollisionEnter(Collision collision)
+           {
+             Debug.Log("collison ok");
+             ZombieIA other = collision.gameObject.GetComponent<ZombieIA>();
+               if (other)
+               {
+                 Attack();
+               }
+           }*/
+    }
 }

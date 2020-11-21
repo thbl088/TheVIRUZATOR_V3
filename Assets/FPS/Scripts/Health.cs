@@ -40,14 +40,32 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void takeDamage(float damage)
+    {
+        if (invincible)
+            return;
+
+      
+        float healthBefore = currentHealth;
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+       
+        
+
+        HandleDeath();
+    }
+
     public void TakeDamage(float damage, GameObject damageSource)
     {
         if (invincible)
             return;
 
+     
         float healthBefore = currentHealth;
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
 
         // call OnDamage action
         float trueDamageAmount = healthBefore - currentHealth;
