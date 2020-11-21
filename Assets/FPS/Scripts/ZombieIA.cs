@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class ZombieIA : MonoBehaviour
 {
+    public AudioSource Dsound ;
     [SerializeField] float damage;
     [SerializeField] float stoppingDistance;
 
@@ -16,6 +17,7 @@ public class ZombieIA : MonoBehaviour
     float attackColldown = 1;
 
 
+
     NavMeshAgent agent;
 
     GameObject target;
@@ -25,6 +27,7 @@ public class ZombieIA : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag("Player");
+        Dsound= GetComponent<AudioSource>();
 
     }
 
@@ -63,24 +66,18 @@ public class ZombieIA : MonoBehaviour
         {
             lastAttackTime = Time.time;
             target.GetComponent<Health>().takeDamage(damage);
+            Dsound.Play();
+
         }
     }
 
     void OnCollisionEnter(Collision col)
     {
     
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && col.gameObject.tag == "Zombie")
         {
             Attack();
         }
-        /*  void OnCollisionEnter(Collision collision)
-           {
-             Debug.Log("collison ok");
-             ZombieIA other = collision.gameObject.GetComponent<ZombieIA>();
-               if (other)
-               {
-                 Attack();
-               }
-           }*/
+       
     }
 }
