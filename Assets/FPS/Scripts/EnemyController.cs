@@ -29,6 +29,9 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Delay after death where the GameObject is destroyed (to allow for animation)")]
     public float deathDuration = 0f;
 
+    [Header ("Enemies")]
+    [Tooltip("enemis types")]
+    public EnemyTurret zombie;
 
     [Header("Weapons Parameters")]
     [Tooltip("Allow weapon swapping for this enemy")]
@@ -348,7 +351,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void OnDie()
+    public void OnDie()
     {
         // spawn a particle system when dying
         var vfx = Instantiate(deathVFX, deathVFXSpawnPoint.position, Quaternion.identity);
@@ -365,6 +368,8 @@ public class EnemyController : MonoBehaviour
 
         // this will call the OnDestroy function
         Destroy(gameObject, deathDuration);
+
+        EnemyTurret spawnedEnemy = Instantiate(zombie, transform.position, Quaternion.identity) as EnemyTurret;
     }
 
     private void OnDrawGizmosSelected()
